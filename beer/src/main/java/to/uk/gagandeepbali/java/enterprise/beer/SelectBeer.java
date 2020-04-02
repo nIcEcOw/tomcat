@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,10 +24,16 @@ public class SelectBeer extends HttpServlet {
 		
 		BeerAdvice beerAdvice = new BeerAdvice ();
 		List < String > beerBrands = beerAdvice.getBrands ( request.getParameter ( "colour" ) );
-		Iterator < String > iterator = beerBrands.iterator ();
-		while ( iterator.hasNext () ) {
-			writer.println ( String.format ( "Try: %s%n", iterator.next () ) );
-		}
+		
+		request.setAttribute ( "beerBrands", beerBrands );
+		
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher ( "beerbrands.jsp" );
+		requestDispatcher.forward ( request, response );
+		// List < String > beerBrands = beerAdvice.getBrands ( request.getParameter ( "colour" ) );
+		// Iterator < String > iterator = beerBrands.iterator ();
+		// while ( iterator.hasNext () ) {
+			// writer.println ( String.format ( "Try: %s%n", iterator.next () ) );
+		// }
 		
 		writer.close ();
 	}
